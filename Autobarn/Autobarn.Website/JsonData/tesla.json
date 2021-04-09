@@ -1,0 +1,43 @@
+{
+  "name": "Tesla",
+  "models": [
+    {
+      "code": "model-s",
+      "name": "Model S",
+      "cars": [
+        {
+          "registration": "AB16AAA",
+          "year": 2016,
+          "color": "White"
+        }
+      ]
+    },
+    {
+      "code": "model-3",
+      "name": "Model 3",
+      "cars": [
+        {
+          "registration": "LG19ABC",
+          "color": "Blue",
+          "year": 2019
+        },
+        {
+          "registration": "HN20XYZ",
+          "color": "Black",
+          "year": 2020
+        }
+      ]
+    },
+    {
+      "code": "model-x",
+      "name": "Model X",
+      "cars": [
+        {
+          "registration": "ZZ16ZED",
+          "year": 2016,
+          "color": "Metallic Blue"
+        }
+      ]
+    }
+  ]
+}

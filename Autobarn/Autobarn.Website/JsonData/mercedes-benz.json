@@ -1,0 +1,16 @@
+{
+  "name": "Mercedes-Benz",
+  "models": [
+    {
+      "code": "g63-amg-6x6",
+      "name": "G64 AMG 6x6",
+      "cars": [
+        {
+          "registration": "M90125",
+          "year": 2017,
+          "color": "Grey"
+        }
+      ]
+    }
+  ]
+}

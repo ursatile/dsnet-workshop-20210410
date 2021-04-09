@@ -1,0 +1,43 @@
+{
+  "name": "Volkswagen",
+  "models": [
+    {
+      "code": "t25",
+      "name": "T25 Camper Van",
+      "cars": [
+        {
+          "registration": "YMP420Y",
+          "year": 1982,
+          "color": "Blue"
+        },
+        {
+          "registration": "XYZ104D",
+          "year": 1986,
+          "color": "Orange"
+        }
+      ]
+    },
+    {
+      "code": "t5",
+      "name": "T5 Transporter",
+      "cars": [
+        {
+          "registration": "KT16YYZ",
+          "year": 2005,
+          "color": "Green"
+        }
+      ]
+    },
+    {
+      "code": "beetle",
+      "name": "Beetle",
+      "cars": [
+        {
+          "registration": "OFP857",
+          "year": 1968,
+          "color": "White"
+        }
+      ]
+    }
+  ]
+}

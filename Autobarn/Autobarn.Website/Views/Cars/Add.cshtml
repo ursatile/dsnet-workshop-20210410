@@ -1,0 +1,26 @@
+﻿@using Autobarn.Website.Controllers
+@model Autobarn.Website.Models.AddCarModel
+
+@{
+    ViewBag.Title = "Add a Car";
+}
+
+<h2>Add a Car</h2>
+<form action="@Url.Action("Add")" method="post">
+    @Html.ValidationSummary()
+    <label asp-for="CarModel">
+        Make & Model:
+    </label>
+    @Html.DropDownListFor(model => model.CarModel, Model.Models)
+    <br/>
+    <label asp-for="Registration">Registration:</label>
+    @Html.EditorFor(model => model.Registration)
+    <br/>
+    <label asp-for="Color">Color:</label>
+    @Html.EditorFor(model => model.Color)
+    <br/>
+    <label asp-for="Year">Year:</label>
+    @Html.EditorFor(model => model.Year)
+    <br/>
+    <input type="submit" value="Add Car"/>
+</form>

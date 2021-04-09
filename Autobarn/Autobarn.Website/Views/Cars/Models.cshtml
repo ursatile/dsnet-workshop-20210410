@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Autobarn.Data.Entities.Make>
+
+@{
+    ViewBag.Title = "Cars for Sale";
+}
+
+<h2>Makes &amp; Models</h2>
+<ul>
+    @foreach (var make in Model) {
+        <li>
+            @make.Name
+            <ul>
+                @foreach (var carModel in make.Models) {
+                    <li><a href="@Url.Action("Model", "Cars", new {id = carModel.Code})">@carModel.Name</a> (@carModel.Cars.Count cars available)</li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

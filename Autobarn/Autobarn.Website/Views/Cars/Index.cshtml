@@ -1,0 +1,13 @@
+﻿@using Autobarn.Website.Controllers
+@model IEnumerable<Autobarn.Data.Entities.Car>
+
+@{
+    ViewBag.Title = "Cars for Sale";
+}
+
+<h2>Cars For Sale</h2>
+<ul id="car-list">
+    @foreach (var vehicle in Model) {
+        <li><strong>@vehicle.Registration</strong>: @vehicle.CarModel (@vehicle.Year, @vehicle.Color)</li>
+    }
+</ul>

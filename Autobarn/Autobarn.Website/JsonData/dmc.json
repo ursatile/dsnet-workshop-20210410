@@ -1,0 +1,16 @@
+{
+  "name": "DMC",
+  "models": [
+    {
+      "code": "delorean",
+      "name": "DeLorean",
+      "cars": [
+        {
+          "registration": "OUTATIME",
+          "year": 1985,
+          "color": "Silver"
+        }
+      ]
+    }
+  ]
+}

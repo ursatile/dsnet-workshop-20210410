@@ -1,0 +1,12 @@
+﻿@model Autobarn.Data.Entities.CarModel
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>Cars For Sale: @Model.ToString()</h2>
+<ul>
+    @foreach (var car in Model.Cars) {
+        <li>@car.Registration (@car.Year, @car.Color)</li>
+    }
+</ul>
