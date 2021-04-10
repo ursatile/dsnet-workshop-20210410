@@ -35,6 +35,7 @@ namespace Autobarn.Website.Controllers.Api {
         public IActionResult Put(string id, PutCar body) {
 	        var existingCar = database.FindCar(id);
 	        var model = database.Models.FirstOrDefault(m => m.Code == body.ModelCode);
+	        if (model == default) return BadRequest($"Sorry; {body.ModelCode} is not a valid model code");
 	        if (existingCar == default) {
 		        var car = new Car() {
 			        Registration = id,
