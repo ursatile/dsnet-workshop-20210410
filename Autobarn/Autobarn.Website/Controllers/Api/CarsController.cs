@@ -22,5 +22,12 @@ namespace Autobarn.Website.Controllers.Api {
         public IEnumerable<Car> Get() {
             return database.Cars;
         }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(string id) {
+            var car = database.Cars.FirstOrDefault(c => c.Registration.Equals(id, System.StringComparison.InvariantCultureIgnoreCase));
+            if (car == default) return NotFound($"Sorry, we don't have a car with registration {id}");
+            return Ok(car);
+        }
     }
 }
