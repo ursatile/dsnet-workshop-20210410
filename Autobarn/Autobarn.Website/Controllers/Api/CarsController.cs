@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
+using Autobarn.Website.Models.Api;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Autobarn.Website.Controllers.Api {
@@ -27,6 +28,19 @@ namespace Autobarn.Website.Controllers.Api {
         public IActionResult Get(string id) {
             var car = database.Cars.FirstOrDefault(c => c.Registration.Equals(id, System.StringComparison.InvariantCultureIgnoreCase));
             if (car == default) return NotFound($"Sorry, we don't have a car with registration {id}");
+            return Ok(car);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(string id, PutCar body) {
+	        var model = database.Models.FirstOrDefault(m => m.Code == body.ModelCode);
+	        var car = new Car() {
+		        Registration = body.Registration,
+		        Color = body.Color,
+		        Year = body.Year,
+		        CarModel = model
+	        };
+            this.database.AddCar(car);
             return Ok(car);
         }
     }
