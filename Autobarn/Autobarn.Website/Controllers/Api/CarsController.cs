@@ -33,15 +33,24 @@ namespace Autobarn.Website.Controllers.Api {
 
         [HttpPut("{id}")]
         public IActionResult Put(string id, PutCar body) {
+	        var existingCar = database.FindCar(id);
 	        var model = database.Models.FirstOrDefault(m => m.Code == body.ModelCode);
-	        var car = new Car() {
-		        Registration = body.Registration,
-		        Color = body.Color,
-		        Year = body.Year,
-		        CarModel = model
-	        };
-            this.database.AddCar(car);
-            return Ok(car);
+	        if (existingCar == default) {
+		        var car = new Car() {
+			        Registration = id,
+			        Color = body.Color,
+			        Year = body.Year,
+			        CarModel = model
+		        };
+		        this.database.AddCar(car);
+		        return Created("TODO", car);
+	        }
+	        else {
+		        existingCar.Color = body.Color;
+		        existingCar.Year = body.Year;
+		        existingCar.CarModel = model;
+		        return Accepted(existingCar);
+	        }
         }
     }
 }
