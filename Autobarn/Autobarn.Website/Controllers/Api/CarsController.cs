@@ -7,6 +7,7 @@ using Autobarn.Data.Entities;
 using Autobarn.Website.Models;
 using Autobarn.Website.Models.Api;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Dynamic;
 
 namespace Autobarn.Website.Controllers.Api {
     [Route("api/[controller]")]
@@ -20,8 +21,27 @@ namespace Autobarn.Website.Controllers.Api {
         }
 
         [HttpGet]
-        public IEnumerable<Car> Get() {
-            return database.Cars;
+        public IActionResult Get(int index = 0, int count = 10) {
+            var cars = database.Cars.Skip(index).Take(count);
+            var total = database.Cars.Count();
+            dynamic links = new ExpandoObject();
+            links.first = new { href = $"/api/cars" };
+            links.final = new { href = $"/api/cars?index={total - (total % count)}" };
+            if (index > 0) {
+                links.previous = new { href = $"/api/cars?index={index - count}"};
+            }
+            if (index+count < total) {
+                links.next = new { href = $"/api/cars?index={index+count}"};
+            }
+
+            var result = new {
+                _links = links,
+                index = index,
+                count = count,
+                total = total,
+                items = cars
+            };
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
