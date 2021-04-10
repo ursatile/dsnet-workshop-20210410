@@ -11,10 +11,16 @@ namespace Autobarn.Website.Controllers.Api {
     [Route("api/[controller]")]
     [ApiController]
     public class CarsController : ControllerBase {
+        
+        ICarDatabase database;
+        
+        public CarsController(ICarDatabase database) {
+            this.database = database;
+        }
 
         [HttpGet]
-        public string Get() {
-            return "It works!";
+        public IEnumerable<Car> Get() {
+            return database.Cars;
         }
     }
 }
