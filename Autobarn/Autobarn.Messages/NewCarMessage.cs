@@ -10,5 +10,10 @@ namespace Autobarn.Messages {
 		public int Year { get; set; }
 		public DateTimeOffset DateAdded { get; set; }
 	}
+
+    public class NewCarPriceMessage : NewCarMessage {
+        public int Price {get; set; }
+        public string Currency {get;set;}
+    }
 }
 

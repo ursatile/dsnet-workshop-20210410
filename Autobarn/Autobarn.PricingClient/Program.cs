@@ -24,15 +24,23 @@ namespace Autobarn.PricingClient {
 			CalculatePrice(m);
 		}
 
-		private static void CalculatePrice(NewCarMessage message) {
+		private static void CalculatePrice(NewCarMessage newCarMessage) {
 			var request = new PriceRequest {
-				Make = message.Make,
-				Model = message.Model,
-				Color = message.Color,
-				Year = message.Year
+				Make = newCarMessage.Make,
+				Model = newCarMessage.Model,
+				Color = newCarMessage.Color,
+				Year = newCarMessage.Year
 			};
 			var reply = grpcClient.GetPrice(request);
-			Console.WriteLine(reply.Price);
+			var priceMessage = new NewCarPriceMessage {
+                Make = newCarMessage.Make,
+                Model = newCarMessage.Model,
+				Color = newCarMessage.Color,
+				Year = newCarMessage.Year,
+                Price = reply.Price,
+                Currency = reply.Currency
+            };
+            bus.PubSub.Publish(priceMessage);
 		}
 	}
 }
