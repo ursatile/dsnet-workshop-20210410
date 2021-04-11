@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autobarn.Data;
 using Autobarn.Website.GraphQL.Schemas;
+using EasyNetQ;
 using GraphiQl;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Builder;
@@ -19,13 +20,20 @@ namespace Autobarn.Website {
 			Configuration = configuration;
 		}
 
+		const string AMQP = "amqps://uzvpuvak:CmgAweRCxXXm5L0wRC9aAWVRuMklAamN@rattlesnake.rmq.cloudamqp.com/uzvpuvak";
+
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
 			services.AddRouting(options => options.LowercaseUrls = true);
 			services.AddControllersWithViews();
+
+			var bus = RabbitHutch.CreateBus(AMQP);
+			services.AddSingleton<IBus>(bus);
+
 			var db = new InMemoryCarDatabase("JsonData");
+
 			services.AddSingleton<ICarDatabase>(db);
 			services.AddSingleton<AutobarnSchema>();
 			services
