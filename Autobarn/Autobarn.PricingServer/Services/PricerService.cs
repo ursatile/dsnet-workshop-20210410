@@ -10,8 +10,9 @@ namespace Autobarn.PricingServer.Services {
 		}
 
 		public override Task<PriceReply> GetPrice(PriceRequest request, ServerCallContext context) {
+            var priceGen = new System.Random();
 			return Task.FromResult(new PriceReply {
-				Price = 10000,
+				Price = priceGen.Next(100000),
 				Currency = "EUR"
 			});
 		}
