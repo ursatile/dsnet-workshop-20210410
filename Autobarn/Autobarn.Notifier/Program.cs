@@ -6,20 +6,36 @@ using System.Linq;
 using System.Text;
 using System.Net.Mail;
 using System.Net;
-
+using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Autobarn.Notifier {
 	class Program {
+        static HubConnection hub;
+        private const string SIGNALR_URL = "https://workshop.ursatile.com:5001/newcarhub";
 		const string AMQP = "amqps://uzvpuvak:CmgAweRCxXXm5L0wRC9aAWVRuMklAamN@rattlesnake.rmq.cloudamqp.com/uzvpuvak";
-		static void Main(string[] args) {
+		static async Task Main(string[] args) {
+            hub = new HubConnectionBuilder().WithUrl(SIGNALR_URL).Build();
+            await hub.StartAsync();
+            await hub.SendAsync("DoMessage", "Autobarn.PricingClient", "PricingClient has connected! Yay!");
+
 			using var bus = RabbitHutch.CreateBus(AMQP);
 			bus.PubSub.Subscribe<NewCarPriceMessage>($"dashboard-{Environment.MachineName}", HandleNewCarPriceMessage);
 			Console.ReadKey();
 		}
 
-		static void HandleNewCarPriceMessage(NewCarPriceMessage m) {
+		static async Task HandleNewCarPriceMessage(NewCarPriceMessage m) {
 			SendEmailAboutCar(m);
+            await TellWebsiteAboutCar(m);
 		}
+
+        static async Task TellWebsiteAboutCar(NewCarPriceMessage m) {
+            await hub.SendAsync(
+                "SendMessage", "Autobarn.Notifier", 
+                JsonConvert.SerializeObject(m)
+            );
+        }
 
 		static void SendEmailAboutCar(NewCarPriceMessage m) {
 			var client = new SmtpClient("smtp.mailtrap.io", 2525) {

@@ -11,3 +11,26 @@
         <li><strong>@vehicle.Registration</strong>: @vehicle.CarModel (@vehicle.Year, @vehicle.Color)</li>
     }
 </ul>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>    
+    <script>
+        function addNewCarToPage(user, json) {
+            // {"Price":69248,"Currency":"EUR","Registration":null,"Make":"DMC","Model":"DeLorean","Color":"Black","Year":1999,"DateAdded":"0001-01-01T00:00:00+00:00"}
+            var data = JSON.parse(json);
+            var text = `${data.Make} ${data.Model}, price ${data.Price} ${data.Currency}`;
+            var list = document.getElementById('car-list');
+            var item = document.createElement('li');
+            item.innerHTML = text;
+            list.insertBefore(item, list.firstChild);
+        };
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/newcarhub").build();        
+        connection.on("DoMessage", addNewCarToPage);
+        connection.start().then(function() {
+            console.log("SignalR has started!");
+        }).catch(function(error) {
+            console.log(error);
+        });
+    </script>>
+}
