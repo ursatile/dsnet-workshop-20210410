@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "Autobarn.PricingServer";
+
+package greet;
+
+// The greeting service definition.
+service Pricer {
+  // Sends a greeting
+  rpc GetPrice (PriceRequest) returns (PriceReply);
+}
+
+// The request message containing the user's name.
+message PriceRequest {
+  string make = 1;
+	string model = 2;
+	int32 year = 3;
+  string color = 4;
+}
+
+// The response message containing the greetings.
+message PriceReply {
+  int32 price = 1;
+  string currency = 2;
+}
